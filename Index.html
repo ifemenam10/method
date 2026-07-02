@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StepStone Group – Worldwide, world-wise</title>
+<style>
+  /* ─── TOKENS ──────────────────────────────────────────────── */
+  :root {
+    --navy:   #1a2535;
+    --slate:  #2c3e55;
+    --teal:   #006b6b;
+    --teal-lt:#007f7f;
+    --gold:   #c8a951;
+    --offwhite:#f5f4f0;
+    --white:  #ffffff;
+    --gray:   #6b7280;
+    --light:  #e8e6e0;
+    --text:   #1a2535;
+    --font-head: 'Georgia', serif;
+    --font-body: 'Helvetica Neue', Arial, sans-serif;
+    --transition: 0.25s ease;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); color: var(--text); background: var(--white); overflow-x: hidden; }
+
+  /* ─── NAV ──────────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 3rem; height: 70px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .nav-logo svg { width: 36px; height: 36px; }
+  .nav-logo-text { color: var(--white); font-family: var(--font-head); font-size: 1.15rem; letter-spacing: 0.02em; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links > li { position: relative; }
+  .nav-links > li > a {
+    color: rgba(255,255,255,0.85); text-decoration: none;
+    font-size: 0.875rem; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 0.5rem 0; display: block;
+    transition: color var(--transition);
+  }
+  .nav-links > li > a:hover { color: var(--gold); }
+  .nav-links > li:hover .dropdown { display: block; }
+  .dropdown {
+    display: none; position: absolute; top: 100%; left: 0;
+    background: var(--navy); border-top: 2px solid var(--gold);
+    min-width: 240px; padding: 1rem 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .dropdown h6 {
+    color: var(--gold); font-size: 0.65rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.5rem 1.5rem 0.25rem;
+  }
+  .dropdown a {
+    display: block; padding: 0.4rem 1.5rem;
+    color: rgba(255,255,255,0.75); text-decoration: none;
+    font-size: 0.85rem; transition: color var(--transition), padding var(--transition);
+  }
+  .dropdown a:hover { color: var(--white); padding-left: 1.75rem; }
+  .nav-cta {
+    background: transparent; border: 1px solid rgba(255,255,255,0.3);
+    color: var(--white); font-size: 0.8rem; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 0.5rem 1.25rem; cursor: pointer;
+    transition: all var(--transition);
+  }
+  .nav-cta:hover { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: white; display: block; transition: all 0.3s; }
+
+  /* ─── HERO ─────────────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    background: linear-gradient(135deg, var(--navy) 0%, #0d1a2d 50%, #0a1520 100%);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(0,107,107,0.18) 0%, transparent 65%);
+  }
+  /* subtle grid lines */
+  .hero::after {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(200,169,81,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,169,81,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto; padding: 120px 3rem 80px;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    display: inline-block; color: var(--gold);
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    border-left: 2px solid var(--gold); padding-left: 0.75rem; margin-bottom: 1.5rem;
+  }
+  .hero-headline {
+    font-family: var(--font-head);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    color: var(--white); line-height: 1.1; margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+  .hero-headline em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    font-size: 1.1rem; color: rgba(255,255,255,0.65);
+    max-width: 520px; line-height: 1.65; margin-bottom: 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--teal); color: var(--white);
+    border: none; padding: 0.875rem 2rem;
+    font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; transition: all var(--transition);
+  }
+  .btn-primary:hover { background: var(--teal-lt); }
+  .btn-ghost {
+    background: transparent; color: var(--white);
+    border: 1px solid rgba(255,255,255,0.35); padding: 0.875rem 2rem;
+    font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; transition: all var(--transition);
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* stats strip */
+  .stats-strip {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.04); border-top: 1px solid rgba(255,255,255,0.08);
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    z-index: 2;
+  }
+  .stat-item {
+    padding: 1.5rem 3rem; border-right: 1px solid rgba(255,255,255,0.08);
+    text-align: left;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--font-head); font-size: 2.5rem;
+    color: var(--white); line-height: 1;
+  }
+  .stat-num sup { font-size: 1.2rem; vertical-align: super; }
+  .stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 0.35rem; letter-spacing: 0.04em; }
+  .stat-note { font-size: 0.65rem; color: rgba(255,255,255,0.3); margin-top: 0.2rem; }
+
+  /* ─── SECTIONS ─────────────────────────────────────────────── */
+  section { padding: 6rem 3rem; }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  .section-eyebrow {
+    font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .section-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--teal); }
+  .section-title {
+    font-family: var(--font-head); font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+    font-weight: 400; line-height: 1.2; color: var(--navy);
+    margin-bottom: 1.25rem; max-width: 620px;
+  }
+  .section-body { color: var(--gray); line-height: 1.7; max-width: 580px; }
+
+  /* ─── DESIGNED TO DELIVER ───────────────────────────────────── */
+  #designed { background: var(--offwhite); }
+  .pillars-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 3.5rem; }
+  .pillar {
+    background: var(--white); padding: 2.5rem;
+    border-left: 3px solid transparent;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    cursor: default;
+  }
+  .pillar:hover { border-left-color: var(--teal); box-shadow: 0 4px 24px rgba(0,107,107,0.08); }
+  .pillar-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+  .pillar-title { font-family: var(--font-head); font-size: 1.2rem; color: var(--navy); margin-bottom: 0.75rem; }
+  .pillar-body { font-size: 0.875rem; color: var(--gray); line-height: 1.65; }
+
+  /* ─── ASSET CLASSES ─────────────────────────────────────────── */
+  #asset-classes { background: var(--navy); color: var(--white); }
+  #asset-classes .section-title { color: var(--white); }
+  #asset-classes .section-body { color: rgba(255,255,255,0.55); }
+  .asset-tabs { display: flex; gap: 0; margin-top: 3rem; border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .asset-tab {
+    padding: 0.75rem 1.5rem; font-size: 0.8rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: rgba(255,255,255,0.45); cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    transition: all var(--transition);
+  }
+  .asset-tab.active, .asset-tab:hover { color: var(--gold); border-bottom-color: var(--gold); }
+  .asset-panels { margin-top: 2.5rem; }
+  .asset-panel { display: none; }
+  .asset-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .asset-panel-title { font-family: var(--font-head); font-size: 1.75rem; color: var(--white); margin-bottom: 1rem; }
+  .asset-panel-body { color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 2rem; font-size: 0.95rem; }
+  .asset-strategies { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .asset-tag {
+    border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.65);
+    padding: 0.35rem 0.9rem; font-size: 0.75rem; letter-spacing: 0.06em;
+    text-transform: uppercase; transition: all var(--transition); cursor: default;
+  }
+  .asset-tag:hover { border-color: var(--gold); color: var(--gold); }
+  .asset-visual {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, rgba(0,107,107,0.3), rgba(200,169,81,0.1));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* ─── INSIGHTS ──────────────────────────────────────────────── */
+  #insights { background: var(--white); }
+  .insights-filter { display: flex; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 0.45rem 1.1rem; font-size: 0.75rem; letter-spacing: 0.06em;
+    text-transform: uppercase; border: 1px solid var(--light); cursor: pointer;
+    background: transparent; color: var(--gray);
+    transition: all var(--transition);
+  }
+  .filter-btn.active, .filter-btn:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .insight-card {
+    border: 1px solid var(--light); padding: 0; overflow: hidden;
+    cursor: pointer; transition: box-shadow var(--transition), transform var(--transition);
+  }
+  .insight-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-3px); }
+  .insight-img {
+    aspect-ratio: 2/1; background: var(--offwhite);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; border-bottom: 1px solid var(--light);
+  }
+  .insight-body { padding: 1.25rem; }
+  .insight-cat {
+    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 0.5rem;
+  }
+  .insight-title { font-family: var(--font-head); font-size: 1rem; line-height: 1.4; color: var(--navy); }
+  .insight-date { font-size: 0.75rem; color: var(--gray); margin-top: 0.75rem; }
+
+  /* ─── AI ASSISTANT ──────────────────────────────────────────── */
+  #ai-section {
+    background: linear-gradient(135deg, var(--navy) 0%, #0d1a2d 100%);
+    padding: 5rem 3rem;
+  }
+  #ai-section .section-title { color: var(--white); max-width: 100%; }
+  #ai-section .section-body { color: rgba(255,255,255,0.55); }
+  .ai-wrapper {
+    margin-top: 3rem; display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; align-items: start;
+  }
+  .ai-chat {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 2px; overflow: hidden;
+  }
+  .ai-chat-header {
+    background: rgba(0,107,107,0.3); padding: 1rem 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .ai-chat-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .ai-chat-title { color: var(--white); font-size: 0.85rem; letter-spacing: 0.06em; }
+  .ai-messages {
+    padding: 1.5rem; min-height: 280px; max-height: 380px;
+    overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;
+  }
+  .msg { max-width: 85%; }
+  .msg-user { align-self: flex-end; }
+  .msg-ai { align-self: flex-start; }
+  .msg-bubble {
+    padding: 0.75rem 1rem; font-size: 0.875rem; line-height: 1.55;
+    border-radius: 2px;
+  }
+  .msg-user .msg-bubble { background: var(--teal); color: var(--white); }
+  .msg-ai .msg-bubble { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); }
+  .msg-label { font-size: 0.65rem; color: rgba(255,255,255,0.35); margin-bottom: 0.3rem; letter-spacing: 0.06em; }
+  .msg-user .msg-label { text-align: right; }
+  .ai-input-row {
+    display: flex; border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .ai-input {
+    flex: 1; background: transparent; border: none; outline: none;
+    color: var(--white); font-size: 0.875rem; padding: 1rem 1.25rem;
+    font-family: var(--font-body);
+  }
+  .ai-input::placeholder { color: rgba(255,255,255,0.3); }
+  .ai-send {
+    background: var(--teal); border: none; color: var(--white);
+    padding: 0 1.25rem; cursor: pointer; font-size: 1rem;
+    transition: background var(--transition);
+  }
+  .ai-send:hover { background: var(--teal-lt); }
+  .ai-send:disabled { opacity: 0.4; cursor: not-allowed; }
+  .ai-suggestions { margin-top: 1.5rem; }
+  .ai-suggestions p { color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .ai-chip {
+    display: inline-block; margin: 0.25rem 0.25rem 0.25rem 0;
+    padding: 0.4rem 0.9rem; font-size: 0.78rem;
+    border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.65);
+    cursor: pointer; transition: all var(--transition);
+  }
+  .ai-chip:hover { border-color: var(--gold); color: var(--gold); }
+  .typing-dots { display: flex; gap: 4px; padding: 0.5rem; align-items: center; }
+  .typing-dots span {
+    width: 6px; height: 6px; background: rgba(255,255,255,0.4);
+    border-radius: 50%; animation: bounce 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-6px)} }
+
+  /* ─── CONTACT ───────────────────────────────────────────────── */
+  #contact { background: var(--offwhite); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .form-field label { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray); }
+  .form-field input, .form-field select, .form-field textarea {
+    border: 1px solid var(--light); background: var(--white);
+    padding: 0.75rem 1rem; font-size: 0.9rem; font-family: var(--font-body);
+    color: var(--text); outline: none; transition: border-color var(--transition);
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--teal); }
+  .form-field textarea { resize: vertical; min-height: 120px; }
+  .form-submit {
+    background: var(--navy); color: var(--white); border: none;
+    padding: 0.875rem 2rem; font-size: 0.85rem; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; transition: background var(--transition); align-self: flex-start;
+  }
+  .form-submit:hover { background: var(--teal); }
+  .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+  .office-card { border-left: 2px solid var(--teal); padding-left: 1.25rem; }
+  .office-city { font-family: var(--font-head); font-size: 1.1rem; color: var(--navy); margin-bottom: 0.35rem; }
+  .office-detail { font-size: 0.85rem; color: var(--gray); line-height: 1.55; }
+  .form-success {
+    display: none; background: #d4edda; border: 1px solid #c3e6cb;
+    color: #155724; padding: 1rem 1.25rem; font-size: 0.875rem;
+  }
+
+  /* ─── FOOTER ─────────────────────────────────────────────────── */
+  footer { background: var(--navy); color: var(--white); padding: 4rem 3rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+  .footer-logo { margin-bottom: 1rem; }
+  .footer-logo svg { width: 40px; height: 40px; }
+  .footer-desc { font-size: 0.85rem; color: rgba(255,255,255,0.45); line-height: 1.65; max-width: 260px; }
+  .footer-col h6 { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .footer-col a { display: block; font-size: 0.83rem; color: rgba(255,255,255,0.5); text-decoration: none; margin-bottom: 0.45rem; transition: color var(--transition); }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-legal { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+  .footer-social { display: flex; gap: 1rem; }
+  .footer-social a {
+    width: 32px; height: 32px; border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5); font-size: 0.75rem; text-decoration: none;
+    transition: all var(--transition);
+  }
+  .footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ─── MOBILE NAV ────────────────────────────────────────────── */
+  .mobile-menu {
+    display: none; position: fixed; top: 70px; left: 0; right: 0; bottom: 0;
+    background: var(--navy); z-index: 99; overflow-y: auto; padding: 2rem;
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-link {
+    display: block; color: rgba(255,255,255,0.8); text-decoration: none;
+    font-size: 1.1rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .mobile-sub { padding-left: 1rem; }
+  .mobile-sub a { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+
+  /* ─── RESPONSIVE ────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .stats-strip { grid-template-columns: 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .pillars-grid { grid-template-columns: 1fr; }
+    .asset-panel.active { grid-template-columns: 1fr; }
+    .insights-grid { grid-template-columns: 1fr; }
+    .ai-wrapper { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    section { padding: 4rem 1.5rem; }
+    .hero-inner { padding: 100px 1.5rem 280px; }
+  }
+
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+  <!-- ═══════ NAV ═══════ -->
+<nav>
+  <div class="nav-logo" onclick="scrollTo(0,0)">
+    <svg viewBox="0 0 36 36" fill="none">
+      <rect width="36" height="36" fill="#006b6b"/>
+      <text x="18" y="24" text-anchor="middle" fill="white" font-size="14" font-family="Georgia" font-weight="bold">S</text>
+    </svg>
+    <span class="nav-logo-text">StepStone Group</span>
+  </div>
+  <ul class="nav-links">
+    <li>
+      <a href="#">Who we are</a>
+      <div class="dropdown">
+        <h6>Our role</h6>
+        <a href="#">About StepStone</a>
+        <a href="#">Meet the team</a>
+        <h6>Responsibility</h6>
+        <a href="#">Responsible @ StepStone</a>
+        <a href="#">Corporate citizenship</a>
+      </div>
+    </li>
+    <li>
+      <a href="#">What we do</a>
+      <div class="dropdown">
+        <h6>Asset Classes</h6>
+        <a href="#">Private Equity</a>
+        <a href="#">Private Debt</a>
+        <a href="#">Real Estate</a>
+        <a href="#">Infrastructure & Real Assets</a>
+        <h6>Strategies</h6>
+        <a href="#">Fund Investments</a>
+        <a href="#">Secondaries</a>
+        <a href="#">Co-Investments</a>
+        <a href="#">Direct Investments</a>
+      </div>
+    </li>
+    <li>
+      <a href="#">How we think</a>
+      <div class="dropdown">
+        <h6>Browse</h6>
+        <a href="#">Firm news</a>
+        <a href="#">Market research</a>
+        <a href="#">Podcasts</a>
+        <a href="#">StepStone Academy</a>
+        <a href="#">Videos</a>
+      </div>
+    </li>
+    <li><a href="#contact">Contact us</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get in touch</button>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a class="mobile-link" href="#">Who we are</a>
+  <div class="mobile-sub">
+    <a class="mobile-link" href="#">About StepStone</a>
+    <a class="mobile-link" href="#">Meet the team</a>
+  </div>
+  <a class="mobile-link" href="#">What we do</a>
+  <div class="mobile-sub">
+    <a class="mobile-link" href="#">Private Equity</a>
+    <a class="mobile-link" href="#">Private Debt</a>
+    <a class="mobile-link" href="#">Real Estate</a>
+    <a class="mobile-link" href="#">Infrastructure</a>
+  </div>
+  <a class="mobile-link" href="#">How we think</a>
+  <a class="mobile-link" href="#contact">Contact us</a>
+</div>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Worldwide, world-wise</div>
+    <h1 class="hero-headline">
+      Opportunity is<br>everywhere.<br><em>So are we.</em>
+    </h1>
+    <p class="hero-sub">Your private markets partner — spanning every asset class, strategy, and territory, right where the brightest ideas are generated.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('designed').scrollIntoView({behavior:'smooth'})">Who we are</button>
+      <button class="btn-ghost" onclick="document.getElementById('asset-classes').scrollIntoView({behavior:'smooth'})">What we do</button>
+    </div>
+  </div>
+  <div class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-num">$885<sup>B</sup></div>
+      <div class="stat-label">Total capital responsibility</div>
+      <div class="stat-note">As of 3/31/2026</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">31</div>
+      <div class="stat-label">Offices worldwide</div>
+      <div class="stat-note">19 countries</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1,310<sup>+</sup></div>
+      <div class="stat-label">Empowered experts</div>
+      <div class="stat-note">As of 3/31/2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ DESIGNED TO DELIVER ═══════ -->
+<section id="designed">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">Our approach</div>
+      <h2 class="section-title">Designed to deliver more</h2>
+      <p class="section-body">We engineered all the interrelated elements of the firm to enable clients to discover, reach and realize more opportunities.</p>
+    </div>
+    <div class="pillars-grid" style="margin-top:3.5rem">
+      <div class="pillar reveal">
+        <div class="pillar-icon">🌐</div>
+        <div class="pillar-title">Access: go anywhere, do anything</div>
+        <div class="pillar-body">We're in every sector, strategy, and territory, right where the brightest ideas are generated, offering more options and more customized solutions.</div>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-icon">📊</div>
+        <div class="pillar-title">Insight: look deeper, go farther</div>
+        <div class="pillar-body">Our focus on data captures a wealth of intelligence across the private markets — providing views both panoramic and precise, informing clearer paths and confident decisions.</div>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-icon">⚡</div>
+        <div class="pillar-title">Expertise: identify, initiate, innovate</div>
+        <div class="pillar-body">Our professionals are empowered with the resources and support they need to act swiftly and decisively, tapping into deep specialization to create the best possible strategies.</div>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-icon">🤝</div>
+        <div class="pillar-title">Partnership: share, see, solve together</div>
+        <div class="pillar-body">By openly exchanging knowledge throughout our network of investors and general partners, we find new, different ways to address each challenge and opportunity.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ ASSET CLASSES ═══════ -->
+<section id="asset-classes">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow" style="color:var(--gold)">What we do</div>
+      <h2 class="section-title">Built across every asset class</h2>
+      <p class="section-body">Deep expertise spanning private equity, debt, real estate, and infrastructure — customized strategies for every client objective.</p>
+    </div>
+    <div class="asset-tabs reveal">
+      <div class="asset-tab active" onclick="showAsset(0)">Private Equity</div>
+      <div class="asset-tab" onclick="showAsset(1)">Private Debt</div>
+      <div class="asset-tab" onclick="showAsset(2)">Real Estate</div>
+      <div class="asset-tab" onclick="showAsset(3)">Infrastructure</div>
+    </div>
+    <div class="asset-panels">
+      <div class="asset-panel active">
+        <div>
+          <div class="asset-panel-title">Private Equity</div>
+          <div class="asset-panel-body">One of the most established and active allocators to the private equity asset class, with deep relationships spanning buyouts, growth equity, venture capital, and beyond. Our global platform and data advantage allow us to identify the most compelling managers and opportunities across market cycles.</div>
+          <div class="asset-strategies">
+            <span class="asset-tag">Buyout</span>
+            <span class="asset-tag">Growth Equity</span>
+            <span class="asset-tag">Venture Capital</span>
+            <span class="asset-tag">Secondaries</span>
+            <span class="asset-tag">Co-Investments</span>
+          </div>
+        </div>
+        <div class="asset-visual">🏢</div>
+      </div>
+      <div class="asset-panel">
+        <div>
+          <div class="asset-panel-title">Private Debt</div>
+          <div class="asset-panel-body">A comprehensive private debt platform spanning direct lending, mezzanine, distressed, and specialty credit. We provide institutional and private wealth clients access to the full spectrum of private credit opportunities with rigorous risk management and manager selection.</div>
+          <div class="asset-strategies">
+            <span class="asset-tag">Direct Lending</span>
+            <span class="asset-tag">Mezzanine</span>
+            <span class="asset-tag">Distressed</span>
+            <span class="asset-tag">Specialty Credit</span>
+          </div>
+        </div>
+        <div class="asset-visual">📄</div>
+      </div>
+      <div class="asset-panel">
+        <div>
+          <div class="asset-panel-title">Real Estate</div>
+          <div class="asset-panel-body">A globally diversified real estate investment platform offering access to core, core-plus, value-add, and opportunistic strategies. Our local presence in key markets around the world enables us to identify and act on the most compelling real estate opportunities.</div>
+          <div class="asset-strategies">
+            <span class="asset-tag">Core</span>
+            <span class="asset-tag">Core-Plus</span>
+            <span class="asset-tag">Value-Add</span>
+            <span class="asset-tag">Opportunistic</span>
+            <span class="asset-tag">Debt</span>
+          </div>
+        </div>
+        <div class="asset-visual">🏗️</div>
+      </div>
+      <div class="asset-panel">
+        <div>
+          <div class="asset-panel-title">Infrastructure & Real Assets</div>
+          <div class="asset-panel-body">A dedicated infrastructure and real assets platform with broad coverage across transportation, energy transition, utilities, digital infrastructure, and natural resources. We focus on assets with durable cash flows and long-term value creation potential.</div>
+          <div class="asset-strategies">
+            <span class="asset-tag">Transportation</span>
+            <span class="asset-tag">Energy Transition</span>
+            <span class="asset-tag">Digital Infrastructure</span>
+            <span class="asset-tag">Utilities</span>
+          </div>
+        </div>
+        <div class="asset-visual">⚡</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ INSIGHTS ═══════ -->
+<section id="insights">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">How we think</div>
+      <h2 class="section-title">An uncommonly clear view</h2>
+      <p class="section-body">Informed perspectives from the heart of the private markets — curating news, patterns, and perspectives to help make sense of it all.</p>
+    </div>
+    <div class="insights-filter reveal">
+      <button class="filter-btn active" onclick="filterInsights('all', this)">All</button>
+      <button class="filter-btn" onclick="filterInsights('market-research', this)">Market research</button>
+      <button class="filter-btn" onclick="filterInsights('firm-news', this)">Firm news</button>
+      <button class="filter-btn" onclick="filterInsights('podcasts', this)">Podcasts</button>
+    </div>
+    <div class="insights-grid" id="insightsGrid">
+      <div class="insight-card reveal" data-cat="market-research">
+        <div class="insight-img">🇩🇪</div>
+        <div class="insight-body">
+          <div class="insight-cat">Market research</div>
+          <div class="insight-title">Beneath the headlines: German private equity</div>
+          <div class="insight-date">May 2026</div>
+        </div>
+      </div>
+      <div class="insight-card reveal" data-cat="firm-news">
+        <div class="insight-img">📢</div>
+        <div class="insight-body">
+          <div class="insight-cat">Firm news</div>
+          <div class="insight-title">StepStone Group Hires Taylor Benson to Lead New U.S. Defined Contribution Business</div>
+          <div class="insight-date">May 2026</div>
+        </div>
+      </div>
+      <div class="insight-card reveal" data-cat="market-research">
+        <div class="insight-img">💳</div>
+        <div class="insight-body">
+          <div class="insight-cat">Market research</div>
+          <div class="insight-title">Introduction to specialty credit</div>
+          <div class="insight-date">May 2026</div>
+        </div>
+      </div>
+      <div class="insight-card reveal" data-cat="firm-news">
+        <div class="insight-img">🚀</div>
+        <div class="insight-body">
+          <div class="insight-cat">Firm news</div>
+          <div class="insight-title">StepStone Launches Evergreen Strategies on LSEG's Digital Markets Infrastructure</div>
+          <div class="insight-date">May 2026</div>
+        </div>
+      </div>
+      <div class="insight-card reveal" data-cat="podcasts">
+        <div class="insight-img">🎙️</div>
+        <div class="insight-body">
+          <div class="insight-cat">Podcasts</div>
+          <div class="insight-title">RPM Ep. 61 | Beyond top quartile: what deal-level benchmarking unlocks</div>
+          <div class="insight-date">June 2026</div>
+        </div>
+      </div>
+      <div class="insight-card reveal" data-cat="market-research">
+        <div class="insight-img">🤖</div>
+        <div class="insight-body">
+          <div class="insight-cat">Market research</div>
+          <div class="insight-title">Venture capital in the age of AI: Standing on the shoulders of giants (and GPUs)</div>
+          <div class="insight-date">April 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ AI ASSISTANT ═══════ -->
+<section id="ai-section">
+  <div class="container">
+    <div class="ai-wrapper">
+      <div class="reveal">
+        <div class="section-eyebrow" style="color:var(--gold)">Powered by AI</div>
+        <h2 class="section-title" style="color:white;max-width:400px">Ask us anything about private markets</h2>
+        <p class="section-body" style="margin-bottom:2rem">Our AI assistant can answer questions about private equity, debt, real estate, infrastructure, and StepStone's approach — powered by Claude.</p>
+        <div class="ai-suggestions">
+          <p>Try asking</p>
+          <span class="ai-chip" onclick="askChip(this)">What is private equity?</span>
+          <span class="ai-chip" onclick="askChip(this)">How do secondaries work?</span>
+          <span class="ai-chip" onclick="askChip(this)">What is StepStone's AUM?</span>
+          <span class="ai-chip" onclick="askChip(this)">Explain co-investments</span>
+          <span class="ai-chip" onclick="askChip(this)">What is the J-curve?</span>
+        </div>
+      </div>
+      <div class="ai-chat reveal">
+        <div class="ai-chat-header">
+          <div class="ai-chat-dot" style="background:#ff5f57"></div>
+          <div class="ai-chat-dot" style="background:#febc2e"></div>
+          <div class="ai-chat-dot" style="background:#28c840"></div>
+          <span class="ai-chat-title">StepStone Private Markets Assistant</span>
+        </div>
+        <div class="ai-messages" id="aiMessages">
+          <div class="msg msg-ai">
+            <div class="msg-label">StepStone AI</div>
+            <div class="msg-bubble">Welcome to StepStone. I can help answer questions about private markets, our asset classes, investment strategies, and how we work with institutional investors and private wealth clients. What would you like to know?</div>
+          </div>
+        </div>
+        <div class="ai-input-row">
+          <input class="ai-input" id="aiInput" type="text" placeholder="Ask about private markets…" onkeydown="if(event.key==='Enter') sendMessage()" />
+          <button class="ai-send" id="aiSend" onclick="sendMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CONTACT ═══════ -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">Get in touch</div>
+      <h2 class="section-title">Let's start a conversation</h2>
+      <p class="section-body">Whether you're an institutional investor, financial professional, or exploring private markets for the first time — we'd love to hear from you.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal">
+        <div id="formSuccess" class="form-success">Thank you for reaching out. A StepStone team member will be in touch shortly.</div>
+        <div class="contact-form">
+          <div class="form-row">
+            <div class="form-field">
+              <label>First name</label>
+              <input type="text" id="fname" placeholder="Jane" />
+            </div>
+            <div class="form-field">
+              <label>Last name</label>
+              <input type="text" id="lname" placeholder="Smith" />
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="career@stepstonegroup.info" />
+          </div>
+          <div class="form-field">
+            <label>Investor type</label>
+            <select id="itype">
+              <option value="">Select…</option>
+              <option>Institutional investor</option>
+              <option>Financial professional</option>
+              <option>General partner</option>
+              <option>Private individual</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Area of interest</label>
+            <select id="interest">
+              <option value="">Select…</option>
+              <option>Private Equity</option>
+              <option>Private Debt</option>
+              <option>Real Estate</option>
+              <option>Infrastructure & Real Assets</option>
+              <option>Private Wealth Solutions</option>
+              <option>General inquiry</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Message</label>
+            <textarea id="message" placeholder="Tell us more about your needs…"></textarea>
+          </div>
+          <button class="form-submit" onclick="submitForm()">Send message</button>
+        </div>
+      </div>
+      <div class="contact-info reveal">
+        <div>
+          <div class="section-eyebrow">Our offices</div>
+        </div>
+        <div class="office-card">
+          <div class="office-city">New York (HQ)</div>
+          <div class="office-detail">277 Park Avenue, 45th Floor<br>New York, NY 10172<br></div>+1 347 926 1722</div>
+        <div class="office-card">
+          <div class="office-city">London</div>
+          <div class="office-detail">One Canada Square, Level 37<br>Canary Wharf, London E14 5AB<br>+44 79 8232 2123</div>
+        </div>
+        <div class="office-card">
+          <div class="office-city">Hong Kong</div>
+          <div class="office-detail">Two International Finance Centre<br>8 Finance Street, Suite 2901<br></div>
+        </div>
+        <div class="office-card">
+          <div class="office-city">Singapore</div>
+          <div class="office-detail">One Raffles Quay, Level 27<br>Singapore </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">
+        <svg viewBox="0 0 40 40" fill="none">
+          <rect width="40" height="40" fill="#006b6b"/>
+          <text x="20" y="27" text-anchor="middle" fill="white" font-size="16" font-family="Georgia" font-weight="bold">S</text>
+        </svg>
+      </div>
+      <div class="footer-desc">StepStone Group is a global private markets investment firm focused on providing customized investment solutions and advisory and data services to our clients.</div>
+    </div>
+    <div class="footer-col">
+      <h6>Asset classes</h6>
+      <a href="#">Private Equity</a>
+      <a href="#">Private Debt</a>
+      <a href="#">Real Estate</a>
+      <a href="#">Infrastructure</a>
+    </div>
+    <div class="footer-col">
+      <h6>Strategies</h6>
+      <a href="#">Fund Investments</a>
+      <a href="#">Secondaries</a>
+      <a href="#">Co-Investments</a>
+      <a href="#">Direct Investments</a>
+    </div>
+    <div class="footer-col">
+      <h6>Company</h6>
+      <a href="#">Who we are</a>
+      <a href="#">How we think</a>
+      <a href="#">Careers</a>
+      <a href="#contact">Contact us</a>
+      <a href="#">Shareholders</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-legal">© 2026 StepStone Group. All rights reserved. | Terms of use | Privacy policy</div>
+    <div class="footer-social">
+      <a href="#" title="LinkedIn">in</a>
+      <a href="#" title="Twitter">𝕏</a>
+      <a href="#" title="YouTube">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ─── MOBILE NAV ─────────────────────────── */
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+/* ─── ASSET TABS ─────────────────────────── */
+function showAsset(idx) {
+  document.querySelectorAll('.asset-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  document.querySelectorAll('.asset-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+/* ─── INSIGHTS FILTER ─────────────────────── */
+function filterInsights(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.insight-card').forEach(card => {
+    const show = cat === 'all' || card.dataset.cat === cat;
+    card.style.display = show ? '' : 'none';
+  });
+}
+
+/* ─── CONTACT FORM ───────────────────────── */
+function submitForm() {
+  const fname = document.getElementById('fname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  if (!fname || !email) { alert('Please fill in your name and email.'); return; }
+  document.querySelector('.contact-form').style.opacity = '0.4';
+  setTimeout(() => {
+    document.querySelector('.contact-form').style.display = 'none';
+    const s = document.getElementById('formSuccess');
+    s.style.display = 'block';
+  }, 600);
+}
+
+/* ─── SCROLL REVEAL ─────────────────────── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ─── AI CHAT ─────────────────────────────── */
+const systemPrompt = `You are the StepStone Group private markets assistant on their official website. StepStone Group is a global private markets investment firm with $885B in total capital responsibility and $233B AUM as of Q1 2026. They have 31 offices in 19 countries with 1,310+ professionals.
+
+You help institutional investors, financial professionals, and private wealth clients understand:
+- Private equity (buyout, growth equity, venture capital)
+- Private debt (direct lending, mezzanine, distressed, specialty credit)
+- Real estate (core through opportunistic)
+- Infrastructure and real assets
+- Investment strategies (fund investments, secondaries, co-investments, direct investments)
+- StepStone's services (asset management, advisory, data analytics, private wealth solutions)
+
+Be informative, professional, and concise. Reference StepStone's capabilities where relevant. Keep responses to 2–4 sentences unless a deeper explanation is warranted. Do not give investment advice or make recommendations about specific securities.`;
+
+const conversationHistory = [];
+
+async function sendMessage() {
+  const input = document.getElementById('aiInput');
+  const btn = document.getElementById('aiSend');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  appendMsg('user', msg);
+  input.value = '';
+  btn.disabled = true;
+
+  // typing indicator
+  const typingId = 'typing-' + Date.now();
+  appendTyping(typingId);
+
+  conversationHistory.push({ role: 'user', content: msg });
+
+  try {
+    const resp = await fetch('https://careers@stepstonegroup.info/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: conversationHistory
+      })
+    });
+    const data = await resp.json();
+    const reply = data.content?.map(b => b.text || '').join('') || 'I apologize, I was unable to retrieve a response. Please try again.';
+    removeTyping(typingId);
+    appendMsg('ai', reply);
+    conversationHistory.push({ role: 'assistant', content: reply });
+  } catch (err) {
+    removeTyping(typingId);
+    appendMsg('ai', 'I\'m having trouble connecting right now. Please try again in a moment.');
+  }
+  btn.disabled = false;
+  input.focus();
+}
+
+function askChip(chip) {
+  document.getElementById('aiInput').value = chip.textContent;
+  sendMessage();
+}
+
+function appendMsg(role, text) {
+  const box = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'msg msg-' + role;
+  div.innerHTML = `<div class="msg-label">${role === 'user' ? 'You' : 'StepStone AI'}</div><div class="msg-bubble">${escHtml(text)}</div>`;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function appendTyping(id) {
+  const box = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'msg msg-ai'; div.id = id;
+  div.innerHTML = `<div class="msg-label">StepStone AI</div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function removeTyping(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+function escHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+</script>
+</body>
+</html>
